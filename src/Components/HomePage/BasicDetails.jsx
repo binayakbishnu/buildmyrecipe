@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
