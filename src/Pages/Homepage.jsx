@@ -3,8 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 function Homepage() {
     return (
-        <div className='h-[100vh]'>
-            Homepage
+        <div className='min-h-screen flex flex-row items-center justify-center'>
             <Outlet />
         </div>
     )
