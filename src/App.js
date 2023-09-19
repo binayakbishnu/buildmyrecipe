@@ -9,6 +9,7 @@ import Ingredients from './Components/HomePage/Ingredients';
 import CookingDetails from './Components/HomePage/CookingDetails';
 import CookingSteps from './Components/HomePage/CookingSteps';
 import AdditionalInfo from './Components/HomePage/AdditionalInfo';
+import RecipeSummary from './Components/HomePage/RecipeSummary';
 
 function App() {
   const homeComponents = [
@@ -36,6 +37,10 @@ function App() {
       path: "additionalinfo",
       component: <AdditionalInfo />,
     },
+    {
+      path:"recipesummary",
+      component: <RecipeSummary />,
+    }
   ]
   return (
     <div className="App">
