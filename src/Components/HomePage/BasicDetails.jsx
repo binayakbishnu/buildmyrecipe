@@ -83,7 +83,7 @@ function BasicDetails() {
                 </div>
 
                 <div>
-                    <p className='text-left p-0 m-0'>Dietary information</p>
+                    <p className='text-left p-0 m-0'>Servings</p>
                     <hr />
                     <div className='text-left flex flex-row flex-wrap gap-2'>
                         {
