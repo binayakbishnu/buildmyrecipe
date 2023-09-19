@@ -78,9 +78,7 @@ function Ingredients() {
     }
 
     const navigate = useNavigate();
-    const submitIngredients = (e) => {
-        e.preventDefault();
-
+    const submitIngredients = () => {
         alert("ingredients submit");
 
         navigate("/home/cookingdetails");
