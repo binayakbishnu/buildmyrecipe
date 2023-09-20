@@ -113,7 +113,7 @@ function Ingredients() {
             </div>
 
             <div>
-                <div className='flex gap-2 justify-between'>
+                <div className='flex flex-wrap gap-2'>
                     <input id="secondaryIngredient" className='flex-1 bg-[rgba(0,0,0,0)] text-white border rounded p-2'
                         onChange={(e) => setCurrValue2(e.target.value)} value={currValue2}
                         type="text" placeholder='add secondary ingredient' />
