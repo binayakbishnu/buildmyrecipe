@@ -105,7 +105,7 @@ function Ingredients() {
                     {
                         primaryIngredients.map((data, index) => (
                             <div key={index} onClick={() => handlePrimaryIngredientDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
-                                {data}<button onClick={() => handlePrimaryIngredientDelete(data)} className='text-red-500 text-[0.8rem]'>x</button>
+                                {data}<div onClick={() => handlePrimaryIngredientDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
@@ -126,7 +126,7 @@ function Ingredients() {
                     {
                         secondaryIngredients.map((data, index) => (
                             <div key={index} onClick={() => handleSecondaryIngredientDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
-                                {data}<button onClick={() => handleSecondaryIngredientDelete(data)} className='text-red-500 text-[0.8rem]'>x</button>
+                                {data}<div onClick={() => handleSecondaryIngredientDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
@@ -155,7 +155,7 @@ function Ingredients() {
                     {
                         allergenList.map((data, index) => (
                             <div key={index} onClick={() => handleAllergenDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
-                                {data}<button onClick={() => handleAllergenDelete(data)} className='text-red-500 text-[0.8rem]'>x</button>
+                                {data}<div onClick={() => handleAllergenDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }

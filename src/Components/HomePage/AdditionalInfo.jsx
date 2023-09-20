@@ -61,7 +61,7 @@ function AdditionalInfo() {
                     {
                         tags.map((data, index) => (
                             <div key={index} onClick={() => handleTagsDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
-                                #{data}<button onClick={() => handleTagsDelete(data)} className='text-red-500 text-[0.8rem]'>x</button>
+                                #{data}<div onClick={() => handleTagsDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
@@ -82,7 +82,7 @@ function AdditionalInfo() {
                     {
                         nutrients.map((data, index) => (
                             <div key={index} onClick={() => handleNutrientDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
-                                {data}<button onClick={() => handleNutrientDelete(data)} className='text-red-500 text-[0.8rem]'>x</button>
+                                {data}<div onClick={() => handleNutrientDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
