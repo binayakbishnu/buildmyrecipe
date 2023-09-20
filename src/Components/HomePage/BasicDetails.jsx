@@ -74,7 +74,7 @@ function BasicDetails() {
                         {
                             dietaryInfoList.map((data, index) => (
                                 <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input type="checkbox" value={data} name={data} onChange={handleRecipeDietaryInfoChange} />
+                                    <input id={`${data}`} type="checkbox" value={data} name={data} onChange={handleRecipeDietaryInfoChange} />
                                     <label htmlFor={data}>{data}</label>
                                 </div>
                             ))
