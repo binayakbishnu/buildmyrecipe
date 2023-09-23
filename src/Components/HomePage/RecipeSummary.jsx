@@ -20,13 +20,13 @@ function RecipeSummary() {
         navigate("/home/newrecipe");
     }
     return (
-        <div className=' text-left bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-2 p-4 rounded w-full sm:w-[50vw] m-auto'>
+        <div className='text-left bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-2 p-4 rounded w-full sm:w-[50vw] m-auto'>
             <div>
                 <div className='flex gap-x-5 items-center'>
-                    <h2 className='text-2xl'>
+                    <h2 className='text-2xl whitespace-nowrap'>
                         {recipeData.name}
                     </h2>
-                    <div className='flex gap-x-3 flex-wrap p-0 m-0'>
+                    <div className='flex gap-x-2 gap-y-1 flex-wrap p-0 m-0'>
                         {
                             recipeData.tagList.map((data, index) => (
                                 <div key={index} /* onClick={() => handlePrimaryIngredientDelete(data)} */ className='text-[0.8rem] cursor-pointer flex gap-x-1 items-center bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2'>
@@ -35,11 +35,11 @@ function RecipeSummary() {
                             ))
                         }
                     </div>
-                    <p>Difficulty: <i
-                        className={`${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
-                    >{recipeData.difficultyLevel}
-                    </i></p>
                 </div>
+                <p>Difficulty: <i
+                    className={`${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
+                >{recipeData.difficultyLevel}
+                </i></p>
                 <hr />
                 <p>{recipeData.description}</p>
                 {/* <p className='flex gap-2 flex-wrap'>
@@ -135,7 +135,18 @@ function RecipeSummary() {
             </div>
 
             <div className='w-full'>
-                <a href={recipeData.videoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
+                <div className='flex gap-5'>
+                    <p>Cooking Steps</p>
+                    <a href={recipeData.videoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
+                </div>
+                <hr />
+                <ol className='list-decimal ms-5'>
+                    {
+                        recipeData.cookingSteps.map((data, index) => (
+                            data && <li key={index}>{data}</li>
+                        ))
+                    }
+                </ol>
             </div>
 
             <button onClick={submitRecipe}

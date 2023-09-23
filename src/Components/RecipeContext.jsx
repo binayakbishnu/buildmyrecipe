@@ -20,12 +20,7 @@ export const RecipeProvider = ({ children }) => {
         prepTime: { hours: 0, minutes: 0 },
         cookingTime: { hours: 0, minutes: 0 },
         difficultyLevel: "",
-        cookingSteps: [
-            "Batter Preparation",
-            "Heating the Griddle",
-            "Pouring and Spreading Batter",
-            "Cooking the Dosa",
-        ],
+        cookingSteps: [''],
         videoLink: "http://youtube.com",
         tagList: [],
     });
