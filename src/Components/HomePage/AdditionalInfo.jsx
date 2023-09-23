@@ -105,6 +105,10 @@ function AdditionalInfo() {
                 </div>
             </div>
 
+            <input className='flex-1 bg-[rgba(0,0,0,0)] text-white border rounded p-2'
+                onChange={(e) => setRecipeData({ ...recipeData, demoLink: e.target.value })}
+                type="text" name="demoLink" id="demoLink" placeholder='paste demo link' />
+
             <button onClick={submitCookingSteps}
                 className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl flex gap-2 items-center w-fit m-auto'
             >Next <BsArrowRightCircle />
