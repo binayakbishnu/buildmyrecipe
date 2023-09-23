@@ -1,46 +1,62 @@
 import React, { useState } from 'react'
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
+import { useStateContext } from '../RecipeContext';
 
 function AdditionalInfo() {
+    const { recipeData, setRecipeData } = useStateContext();
+
     const [currValue1, setCurrValue1] = useState("");
     const [currValue11, setCurrValue11] = useState("");
-    const [nutrients, setNutrients] = useState([]);
+    // const [nutrients, setNutrients] = useState([]);
     const handleNutrientAdd = () => {
         if (!currValue1 || !currValue11 || currValue1 === " " || currValue11 === " ") return;
-        setNutrients(oldValues => [...oldValues, currValue1 + " (" + currValue11 + ")"]);
+        // setNutrients(oldValues => [...oldValues, currValue1 + " (" + currValue11 + ")"]);
+        setRecipeData({ ...recipeData, nutrientList: [...recipeData.nutrientList, currValue1 + " (" + currValue11 + ")"] })
+
         setCurrValue1("");
         setCurrValue11("");
         document.getElementById("nutrientInput").focus();
     }
     const handleNutrientDelete = (value) => {
-        setNutrients(current =>
-            current.filter(nutrient => {
-                return nutrient !== value;
-            })
+        // setNutrients(current =>
+        //     current.filter(nutrient => {
+        //         return nutrient !== value;
+        //     })
+        // );
+        setRecipeData(current => ({
+            ...current,
+            nutrientList: current.nutrientList.filter((nutrientListMember) => nutrientListMember !== value)
+        })
         );
     }
 
     const [currValue2, setCurrValue2] = useState("");
-    const [tags, setTags] = useState([]);
+    // const [tags, setTags] = useState([]);
     const handleTagsAdd = () => {
         if (!currValue2 || currValue2 === " ") return;
         var value = currValue2.split(" ").join("").toLowerCase();
-        setTags(oldValues => [...oldValues, value]);
+        // setTags(oldValues => [...oldValues, value]);
+        setRecipeData({ ...recipeData, tagList: [...recipeData.tagList, value] });
         setCurrValue2("");
         document.getElementById("tagInput").focus();
     }
     const handleTagsDelete = (value) => {
-        setTags(current =>
-            current.filter(tag => {
-                return tag !== value;
-            })
+        // setTags(current =>
+        //     current.filter(tag => {
+        //         return tag !== value;
+        //     })
+        // );
+        setRecipeData(current => ({
+            ...current,
+            tagList: current.tagList.filter((tagListMember) => tagListMember !== value)
+        })
         );
     }
 
     const navigate = useNavigate();
     const submitCookingSteps = () => {
-        alert("cooking steps submit");
+        // alert("cooking steps submit");
         navigate("/home/recipesummary")
     }
     return (
@@ -48,7 +64,7 @@ function AdditionalInfo() {
         Nutritional Information (optional)
         Comments and Ratings */
         <div className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] lg:w-[30vw] m-auto'>
-            <h2 className='text-2xl'>Recipe Name</h2>
+            <h2 className='text-2xl'>{recipeData?.name}</h2>
 
             <div>
                 <div className='flex flex-wrap gap-2'>
@@ -59,7 +75,7 @@ function AdditionalInfo() {
                 </div>
                 <div className='flex gap-2 mt-1 flex-wrap'>
                     {
-                        tags.map((data, index) => (
+                        recipeData.tagList.map((data, index) => (
                             <div key={index} onClick={() => handleTagsDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
                                 #{data}<div onClick={() => handleTagsDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
@@ -80,7 +96,7 @@ function AdditionalInfo() {
                 </div>
                 <div className='flex gap-2 mt-1 flex-wrap'>
                     {
-                        nutrients.map((data, index) => (
+                        recipeData.nutrientList.map((data, index) => (
                             <div key={index} onClick={() => handleNutrientDelete(data)} className='cursor-pointer flex gap-2 items-baseline bg-[rgb(39,52,68)] bg-opacity-80 p-2 rounded'>
                                 {data}<div onClick={() => handleNutrientDelete(data)} className='text-red-500 text-[0.8rem]'>x</div>
                             </div>

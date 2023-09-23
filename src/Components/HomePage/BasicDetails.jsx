@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { useStateContext } from '../RecipeContext';
 
 function BasicDetails() {
+    const { recipeData, setRecipeData } = useStateContext();
+
     const dietaryInfoList = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free", "Egg-Free", "Soy-Free", "Low-Carb", "High-Protein", "Keto", "Pescatarian", "Low-Fat", "Low-Sodium", "Halal", "Kosher", "Sugar-Free", "Raw", "Low-Calorie", "High-Fiber", "Heart-Healthy", "Diabetic-Friendly", "Weight-Loss", "Low-Cholesterol", "DASH Diet", "GERD Friendly",]
-    const [dietaryInfo, setDietaryInfo] = useState([]);
+    // const [dietaryInfo, setDietaryInfo] = useState([]);
     const handleRecipeDietaryInfoChange = (e) => {
         if (e.target.checked) {
-            setDietaryInfo(oldValues => [...oldValues, e.target.value]);
+            // setDietaryInfo(oldValues => [...oldValues, e.target.value]);
+            setRecipeData({ ...recipeData, dietaryInfo: [...recipeData.dietaryInfo, e.target.value] });
         }
         else {
             const value = e.target.value;
-            setDietaryInfo(current =>
-                current.filter(dietaryInfoMember => {
-                    return dietaryInfoMember !== value;
-                })
+            // setDietaryInfo(current =>
+            //     current.filter(dietaryInfoMember => dietaryInfoMember !== value)
+            // );
+
+            setRecipeData(current => ({
+                ...current,
+                dietaryInfo: current.dietaryInfo.filter((dietaryInfoMember) => dietaryInfoMember !== value)
+            })
             );
         }
     }
 
     const servingsList = ["1", "2", "4", "5+"];
-    const [servings, setServings] = useState("");
+    // const [servings, setServings] = useState("");
     const handleRecipeServingsChange = (e) => {
         for (let index = 0; index < servingsList.length; index++) {
             const element = servingsList[index];
@@ -28,33 +36,46 @@ function BasicDetails() {
                 document.getElementById(`${element}`).checked = false;
             else {
                 document.getElementById(`${element}`).checked = true;
-                setServings(e.target.value);
+                // setServings(e.target.value);
+                setRecipeData({ ...recipeData, servings: e.target.value });
             }
         }
     }
 
     const mealTypes = ["breakfast", "dessert", "dinner", "lunch", "snack"];
-    const [mealType, setMealType] = useState([]);
+    // const [mealType, setMealType] = useState([]);
     const handleMealTypeChange = (e) => {
         if (e.target.checked) {
-            setMealType(oldValues => [...oldValues, e.target.value]);
+            // setMealType(oldValues => [...oldValues, e.target.value]);
+            setRecipeData({ ...recipeData, mealTypes: [...recipeData.mealTypes, e.target.value] })
         }
         else {
             const value = e.target.value;
-            setMealType(current =>
-                current.filter(mealType => {
-                    return mealType !== value;
-                })
+            // setMealType(current =>
+            //     current.filter(mealType => {
+            //         return mealType !== value;
+            //     })
+            // );
+            setRecipeData(current => ({
+                ...current,
+                mealTypes: current.mealTypes.filter((mealTypesMember) => mealTypesMember !== value)
+            })
             );
         }
     }
 
-    const navigate = useNavigate();
-    const submitBasicDetails = (e) => {
-        e.preventDefault();
-        mealType.sort((a, b) => a > b ? 1 : -1);
+    const sortMealTypes = async () => {
+        recipeData.mealTypes.sort((a, b) => a > b ? 1 : -1);
+    }
 
-        alert("basic details submit");
+    const navigate = useNavigate();
+    const submitBasicDetails = async (e) => {
+        e.preventDefault();
+        // mealType.sort((a, b) => a > b ? 1 : -1);
+
+        await sortMealTypes();
+
+        // alert("basic details submit");
 
         navigate("/home/ingredients");
     }
@@ -65,7 +86,7 @@ function BasicDetails() {
         Privacy Settings */
         <div>
             <form onSubmit={submitBasicDetails} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] m-auto'>
-                <h2 className='text-2xl'>Recipe Name</h2>
+                <h2 className='text-2xl'>{recipeData?.name}</h2>
 
                 <div>
                     <p className='text-left p-0 m-0'>Dietary information</p>
@@ -74,7 +95,9 @@ function BasicDetails() {
                         {
                             dietaryInfoList.map((data, index) => (
                                 <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input id={`${data}`} type="checkbox" value={data} name={data} onChange={handleRecipeDietaryInfoChange} />
+                                    <input id={`${data}`} type="checkbox" value={data} name={data}
+                                    checked={recipeData.dietaryInfo.includes(data)}
+                                    onChange={handleRecipeDietaryInfoChange} />
                                     <label htmlFor={data}>{data}</label>
                                 </div>
                             ))
@@ -89,7 +112,9 @@ function BasicDetails() {
                         {
                             servingsList.map((data, index) => (
                                 <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input id={data} type="radio" value={data} name={data} onChange={handleRecipeServingsChange} />
+                                    <input id={data} type="radio" value={data} name={data}
+                                        checked={recipeData.servings === data}
+                                        onChange={handleRecipeServingsChange} />
                                     <label htmlFor={data}>{data}</label>
                                 </div>
                             ))
@@ -101,21 +126,12 @@ function BasicDetails() {
                     <p className='text-left p-0 m-0'>Meal type</p>
                     <hr />
                     <div className='text-left flex flex-row flex-wrap gap-x-2'>
-                        {/* <input className='bg-[rgba(0,0,0,0)] text-white border rounded p-2 w-full'
-                        onChange={handleMealTypeChange} value={mealType}
-                        type="text" placeholder='meal type' list='mealTypes' />
-                    <datalist id="mealTypes">
-                        {
-                            mealTypes.map((data, index) => (
-                                <option key={index} value={data} />
-                                ))
-                            }
-                        </datalist> */}
-                        {/* <p className='text-[0.8rem] ps-2'>You add more than one type, separate with commas</p> */}
                         {
                             mealTypes.map((data, index) => (
                                 <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input type="checkbox" value={data} name={data} onChange={handleMealTypeChange} />
+                                    <input id={data} type="checkbox" value={data} name={data}
+                                        checked={recipeData.mealTypes.includes(data)}
+                                        onChange={handleMealTypeChange} />
                                     <label htmlFor={data}>{data}</label>
                                 </div>
                             ))

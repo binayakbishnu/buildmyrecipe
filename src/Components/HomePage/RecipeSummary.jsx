@@ -10,8 +10,8 @@ import { useStateContext } from '../RecipeContext';
 function RecipeSummary() {
     const { recipeData } = useStateContext();
 
-    const primaryIngredientsString = recipeData.primaryIngredients.join(", ");
-    const secondaryIngredientsString = recipeData.secondaryIngredients.join(", ");
+    // const primaryIngredientsString = recipeData.primaryIngredients.join(", ");
+    // const secondaryIngredientsString = recipeData.secondaryIngredients.join(", ");
     const allergensString = recipeData.allergenList.join(", ");
 
     const navigate = useNavigate();
@@ -35,6 +35,10 @@ function RecipeSummary() {
                             ))
                         }
                     </div>
+                    <p>Difficulty: <i
+                        className={`${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
+                    >{recipeData.difficultyLevel}
+                    </i></p>
                 </div>
                 <hr />
                 <p>{recipeData.description}</p>
