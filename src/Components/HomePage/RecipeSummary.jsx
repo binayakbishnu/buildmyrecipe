@@ -8,13 +8,25 @@ import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../RecipeContext';
 
 function RecipeSummary() {
-    const { recipeData } = useStateContext();
+    const { recipeData, setRecipeData } = useStateContext();
 
     // const primaryIngredientsString = recipeData.primaryIngredients.join(", ");
     // const secondaryIngredientsString = recipeData.secondaryIngredients.join(", ");
     const allergensString = recipeData.allergenList.join(", ");
 
     const navigate = useNavigate();
+
+    const goToPage = (page) => {
+        navigate(page);
+    }
+
+    const difficultyTypes = ["easy", "moderate", "hard"];
+    const changeDifficulty = () => {
+        let currIndex = difficultyTypes.indexOf(recipeData.difficultyLevel);
+        let newIndex = (currIndex + 1) % difficultyTypes.length;
+        setRecipeData({ ...recipeData, difficultyLevel: difficultyTypes[newIndex] });
+    }
+
     const submitRecipe = () => {
         alert("cooking steps submit");
         navigate("/home/newrecipe");
@@ -34,23 +46,15 @@ function RecipeSummary() {
                                 </div>
                             ))
                         }
+                        <span onClick={() => goToPage("/home/additionalinfo")} className='underline cursor-pointer'>edit</span>
                     </div>
                 </div>
-                <p>Difficulty: <i
-                    className={`${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
+                <p>Difficulty: <i onClick={changeDifficulty}
+                    className={`cursor-pointer ${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
                 >{recipeData.difficultyLevel}
                 </i></p>
                 <hr />
                 <p>{recipeData.description}</p>
-                {/* <p className='flex gap-2 flex-wrap'>
-                    {
-                        recipeData.tagList.map((data, index) => (
-                            <span key={index} className='text-[0.8rem] cursor-pointer flex gap-2 items-center bg-[rgb(39,52,68)] bg-opacity-80 py-1 px-2 rounded'>
-                                #{data}<div className='text-red-500 text-[0.8rem]'>x</div>
-                            </span>
-                        ))
-                    }
-                </p> */}
             </div>
 
             <div className='flex gap-2 items-baseline'>
@@ -58,11 +62,13 @@ function RecipeSummary() {
                 <div className='flex gap-2 flex-wrap items-center'>
                     {
                         recipeData.dietaryInfo.map((data, index) => (
-                            <div key={index} className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit cursor-pointer flex gap-x-1 items-center'>
-                                {data}<div /* onClick={() => handlePrimaryIngredientDelete(data)} */ className='text-red-500 text-[0.8rem]'>x</div>
+                            <div key={index}
+                                className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit cursor-pointer flex gap-x-1 items-center'>
+                                {data}<div className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
+                    <p onClick={() => goToPage("/home/basicdetails")} className='underline cursor-pointer'>click to edit</p>
                 </div>
             </div>
             <div className='flex gap-2 items-baseline'>
@@ -71,10 +77,11 @@ function RecipeSummary() {
                     {
                         recipeData.nutrientList.map((data, index) => (
                             <div key={index} className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit cursor-pointer flex gap-x-1 items-center'>
-                                {data}<div /* onClick={() => handlePrimaryIngredientDelete(data)} */ className='text-red-500 text-[0.8rem]'>x</div>
+                                {data}<div className='text-red-500 text-[0.8rem]'>x</div>
                             </div>
                         ))
                     }
+                    <p onClick={() => goToPage("/home/additionalinfo")} className='underline cursor-pointer'>click to edit</p>
                 </div>
             </div>
             <div className='flex gap-2 items-center'>
@@ -85,13 +92,16 @@ function RecipeSummary() {
                             <p key={index}>{data}</p>
                         ))
                     }
+                    <p onClick={() => goToPage("/home/basicdetails")} className='underline cursor-pointer'>edit</p>
                 </div>
             </div>
-            <p className='flex gap-2 items-center'><MdPeopleOutline />Serves: {recipeData.servings}</p>
+            <p className='flex gap-2 items-center'><MdPeopleOutline />Serves: {recipeData.servings}
+                <span onClick={() => goToPage("/home/basicdetails")} className='underline cursor-pointer'>edit</span>
+            </p>
 
             <div className='flex flex-col gap-2'>
                 <div>
-                    <p>Ingredients</p>
+                    <p className='flex gap-5'>Ingredients<span onClick={() => goToPage("/home/ingredients")} className='underline cursor-pointer'>edit</span></p>
                     <hr />
                 </div>
                 {/* {primaryIngredientsString} */}
@@ -120,7 +130,7 @@ function RecipeSummary() {
             </div>
 
             <div>
-                <p>Cooking Details</p>
+                <p className='flex gap-2'>Cooking Details<span onClick={() => goToPage("/home/cookingdetails")} className='underline cursor-pointer'>edit</span></p>
                 <hr />
                 <div>
                     <p>
@@ -135,9 +145,9 @@ function RecipeSummary() {
             </div>
 
             <div className='w-full'>
-                <div className='flex gap-5'>
-                    <p>Cooking Steps</p>
-                    <a href={recipeData.videoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
+                <div className='flex justify-between'>
+                    <p className='flex gap-2'>Cooking Steps<span onClick={() => goToPage("/home/cookingsteps")} className='underline cursor-pointer'>edit</span></p>
+                    {recipeData.demoLink && <a href={recipeData.demoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>}
                 </div>
                 <hr />
                 <ol className='list-decimal ms-5'>

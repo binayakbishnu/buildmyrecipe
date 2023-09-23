@@ -21,7 +21,7 @@ export const RecipeProvider = ({ children }) => {
         cookingTime: { hours: 0, minutes: 0 },
         difficultyLevel: "",
         cookingSteps: [''],
-        videoLink: "http://youtube.com",
+        demoLink: "http://youtube.com",
         tagList: [],
     });
 
