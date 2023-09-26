@@ -107,6 +107,7 @@ function AdditionalInfo() {
 
             <input className='flex-1 bg-[rgba(0,0,0,0)] text-white border rounded p-2'
                 onChange={(e) => setRecipeData({ ...recipeData, demoLink: e.target.value })}
+                value={recipeData.demoLink}
                 type="text" name="demoLink" id="demoLink" placeholder='paste demo link' />
 
             <button onClick={submitCookingSteps}

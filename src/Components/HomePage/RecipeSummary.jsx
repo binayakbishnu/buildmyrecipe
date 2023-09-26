@@ -147,7 +147,9 @@ function RecipeSummary() {
             <div className='w-full'>
                 <div className='flex justify-between'>
                     <p className='flex gap-2'>Cooking Steps<span onClick={() => goToPage("/home/cookingsteps")} className='underline cursor-pointer'>edit</span></p>
-                    {recipeData.demoLink && <a href={recipeData.demoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>}
+                    {recipeData.demoLink !== "" &&
+                        <a href={recipeData.demoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
+                    }
                 </div>
                 <hr />
                 <ol className='list-decimal ms-5'>
