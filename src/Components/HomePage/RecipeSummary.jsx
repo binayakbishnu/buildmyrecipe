@@ -4,6 +4,7 @@ import { PiBowlFoodLight } from 'react-icons/pi'
 import { LiaCloudscale } from 'react-icons/lia'
 import { AiOutlineClockCircle } from 'react-icons/ai'
 import { MdPeopleOutline } from 'react-icons/md'
+import { IoWarningOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../RecipeContext';
 
@@ -41,8 +42,8 @@ function RecipeSummary() {
                     <div className='flex gap-x-2 gap-y-1 flex-wrap p-0 m-0'>
                         {
                             recipeData.tagList.map((data, index) => (
-                                <div key={index} /* onClick={() => handlePrimaryIngredientDelete(data)} */ className='text-[0.8rem] cursor-pointer flex gap-x-1 items-center bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2'>
-                                    #{data}<div /* onClick={() => handlePrimaryIngredientDelete(data)} */ className='text-red-500 text-[0.8rem]'>x</div>
+                                <div key={index} className='text-[0.8rem] flex gap-x-1 items-center bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2'>
+                                    #{data}
                                 </div>
                             ))
                         }
@@ -63,8 +64,8 @@ function RecipeSummary() {
                     {
                         recipeData.dietaryInfo.map((data, index) => (
                             <div key={index}
-                                className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit cursor-pointer flex gap-x-1 items-center'>
-                                {data}<div className='text-red-500 text-[0.8rem]'>x</div>
+                                className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit flex gap-x-1 items-center'>
+                                {data}
                             </div>
                         ))
                     }
@@ -76,8 +77,8 @@ function RecipeSummary() {
                 <div className='flex gap-2 flex-wrap items-center'>
                     {
                         recipeData.nutrientList.map((data, index) => (
-                            <div key={index} className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit cursor-pointer flex gap-x-1 items-center'>
-                                {data}<div className='text-red-500 text-[0.8rem]'>x</div>
+                            <div key={index} className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit flex gap-x-1 items-center'>
+                                {data}
                             </div>
                         ))
                     }
@@ -124,7 +125,7 @@ function RecipeSummary() {
                     </div>
                 </div>
                 <div>
-                    <p className='text-[0.8rem] mt-2'>Allergen alert</p>
+                    <p className='text-[0.8rem] mt-2 flex gap-1 items-center'>Allergen alert<span><IoWarningOutline className='text-yellow-500' /></span></p>
                     {allergensString}
                 </div>
             </div>
