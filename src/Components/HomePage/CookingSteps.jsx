@@ -85,6 +85,7 @@ function CookingSteps() {
                         )))
                     }
                 </p>
+                <button onClick={()=>navigate('/home/ingredients')} className='underline'>Add more ingredients +</button>
             </div>
         </div>
     )
