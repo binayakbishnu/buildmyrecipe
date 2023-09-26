@@ -52,11 +52,11 @@ function CookingSteps() {
                                 value={data}
                                 onChange={(e) => handleStepChange(e, index)}
                             />
-                            <input type='button' value="Add"
+                            <input type='button' value="Add" aria-label='add'
                                 onClick={handleAddStep}
                                 className={`${currStep === index + 1 ? 'block' : 'hidden'} w-20 bg-[rgba(0,0,0,0)] text-white border rounded p-2 cursor-pointer`}
                             />
-                            <input type='button' value="Delete"
+                            <input type='button' value="Delete" aria-label='delete'
                                 onClick={() => handleDeleteStep(index)}
                                 className={`${currStep === index + 1 ? 'hidden' : 'block'} w-20 bg-[rgba(0,0,0,0)] text-white border rounded p-2 cursor-pointer`}
                             />
