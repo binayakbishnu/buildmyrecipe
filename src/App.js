@@ -10,9 +10,16 @@ import CookingDetails from './Components/HomePage/CookingDetails';
 import CookingSteps from './Components/HomePage/CookingSteps';
 import AdditionalInfo from './Components/HomePage/AdditionalInfo';
 import RecipeSummary from './Components/HomePage/RecipeSummary';
+import Login from './Components/Auth/Login';
+import Signup from './Components/Auth/Signup';
+import PwdReset from './Components/Auth/PwdReset';
 
 function App() {
   const homeComponents = [
+    {
+      path: "/home",
+      component: <NewRecipe />,
+    },
     {
       path: "newrecipe",
       component: <NewRecipe />,
@@ -38,7 +45,7 @@ function App() {
       component: <AdditionalInfo />,
     },
     {
-      path:"recipesummary",
+      path: "recipesummary",
       component: <RecipeSummary />,
     }
   ]
@@ -46,7 +53,13 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgotPassword" element={<PwdReset />} />
+          </Route>
+
           <Route path="/home" element={<Homepage />}>
             {
               homeComponents.map((data, index) => (
