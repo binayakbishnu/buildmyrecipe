@@ -85,7 +85,7 @@ function BasicDetails() {
         Meal Type
         Privacy Settings */
         <div>
-            <form onSubmit={submitBasicDetails} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] m-auto'>
+            <form onSubmit={submitBasicDetails} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[70vw] md:w-[50vw] m-auto'>
                 <h2 className='text-2xl'>{recipeData?.name}</h2>
 
                 <div>
