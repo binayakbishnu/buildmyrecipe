@@ -13,7 +13,7 @@ function Navbar() {
     useEffect(() => {
         if (user) setShowLogout(true);
         else setShowLogout(false);
-    })
+    }, [user]);
 
     const navigate = useNavigate();
     return (

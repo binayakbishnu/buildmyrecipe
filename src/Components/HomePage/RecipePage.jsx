@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { BsArrowRightCircle } from 'react-icons/bs';
 import { PiBowlFoodLight } from 'react-icons/pi'
 import { LiaCloudscale } from 'react-icons/lia'
 import { AiOutlineClockCircle } from 'react-icons/ai'
