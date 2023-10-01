@@ -10,40 +10,26 @@ import RecipePage from './RecipePage';
 function Dashboard() {
     const [user] = useAuthState(auth);
 
-    const [name, setName] = useState("");
-    const fetchUserName = async () => {
-        if (user && (name === "")) {
-            console.log("user data fetching");
-            try {
-                const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-                const doc = await getDocs(q);
-                const userData = doc?.docs[0]?.data();
-                setName(userData?.name);
-            } catch (err) {
-                console.error(err);
-                alert("An error occured while fetching user data");
-            }
-        }
-    };
-
     const [recipesFetched, setRecipesFetched] = useState(false);
     const [recipes, setRecipes] = useState([]);
     const fetchRecipes = async () => {
-        try {
-            const q = query(collection(db, "recipes"), where("uid", "==", user?.uid));
-            const doc = await getDocs(q);
-            if (doc.docs.length === 0) {
-                return;
+        if ((recipes.length === 0) && !recipesFetched && user) {
+            try {
+                const q = query(collection(db, "recipes"), where("uid", "==", user?.uid));
+                const doc = await getDocs(q);
+                if (doc.docs.length === 0) {
+                    return;
+                }
+
+                const recipesReceived = doc?.docs[0]?.data();
+
+                console.log(recipesReceived.recipes);
+                setRecipes(recipesReceived.recipes);
+                setRecipesFetched(true);
+            } catch (err) {
+                console.error(err);
+                alert("An error occured while fetching recipe data");
             }
-
-            const recipesReceived = doc?.docs[0]?.data();
-
-            console.log(recipesReceived.recipes);
-            setRecipes(recipesReceived.recipes);
-            setRecipesFetched(true);
-        } catch (err) {
-            console.error(err);
-            alert("An error occured while fetching recipe data");
         }
     }
 
@@ -72,18 +58,15 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
-    const xyz = async () => {
-        if ((recipes.length === 0) && !recipesFetched && user) fetchRecipes();
-    }
     useEffect(() => {
         // if (!recipes && !recipesFetched) fetchRecipes();
         // if (!recipes && !recipesFetched) fetchRecipes();
-        fetchUserName().then(() => xyz());
+        fetchRecipes();
     });
     return (
         <div className='flex-1 flex flex-col gap-5 relative'>
             <div className='welcomeMsg'>
-                <h2 className={`${user && name !== "" ? 'text-white' : 'text-[rgba(0,0,0,0)]'} text-4xl`}>Welcome {name}!</h2>
+                <h2 className={`text-4xl`}>My recipes</h2>
             </div>
 
             <div className='mx-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
