@@ -1,38 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Navbar from '../Components/Navbar'
 import { RecipeProvider } from '../Components/RecipeContext'
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, logout } from "../Backend/firebase"
-import { query, collection, getDocs, where } from "firebase/firestore";
+import { auth, logout } from "../Backend/firebase"
 
 function Homepage() {
-    const [user, loading, error] = useAuthState(auth);
-    const [name, setName] = useState("");
+    const [user, loading] = useAuthState(auth);
+
     const navigate = useNavigate();
-    const fetchUserName = async () => {
-        try {
-            const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-            const doc = await getDocs(q);
-            const userData = doc?.docs[0]?.data();
-            setName(userData?.name);
-        } catch (err) {
-            console.error(err);
-            alert("An error occured while fetching user data");
-        }
-    };
     useEffect(() => {
         if (loading) return;
         if (!user) return navigate("/");
-        fetchUserName();
     }, [user, loading]);
     return (
         <div className='min-h-screen flex flex-col gap-5'>
             <Navbar />
-            <h2 className='text-4xl'>Welcome {name}!</h2>
-            {user?.email}
-            <div className='flex-1 flex flex-row items-center justify-center px-2 pb-4'>
+            <div className='flex-1 flex flex-row items-stretch justify-center px-2 pb-4'>
                 <RecipeProvider>
                     <Outlet />
                 </RecipeProvider>

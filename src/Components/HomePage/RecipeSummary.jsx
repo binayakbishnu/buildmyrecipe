@@ -41,7 +41,7 @@ function RecipeSummary() {
         updateDB().then((returnValue) => {
             if (returnValue === "no errors") {
                 setRecipeData({ name: "" });
-                navigate("/home/newrecipe");
+                navigate("/home");
             }
             else {
                 console.warn(returnValue);

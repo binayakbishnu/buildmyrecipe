@@ -1,8 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css';
+
 import LandingPage from './Pages/LandingPage';
+import Login from './Components/Auth/Login';
+import Signup from './Components/Auth/Signup';
+import PwdReset from './Components/Auth/PwdReset';
+
 import Homepage from './Pages/Homepage';
+import Dashboard from './Components/HomePage/Dashboard';
 import NewRecipe from './Components/HomePage/NewRecipe';
 import BasicDetails from './Components/HomePage/BasicDetails';
 import Ingredients from './Components/HomePage/Ingredients';
@@ -10,15 +16,12 @@ import CookingDetails from './Components/HomePage/CookingDetails';
 import CookingSteps from './Components/HomePage/CookingSteps';
 import AdditionalInfo from './Components/HomePage/AdditionalInfo';
 import RecipeSummary from './Components/HomePage/RecipeSummary';
-import Login from './Components/Auth/Login';
-import Signup from './Components/Auth/Signup';
-import PwdReset from './Components/Auth/PwdReset';
 
 function App() {
   const homeComponents = [
     {
       path: "/home",
-      component: <NewRecipe />,
+      component: <Dashboard />,
     },
     {
       path: "newrecipe",
