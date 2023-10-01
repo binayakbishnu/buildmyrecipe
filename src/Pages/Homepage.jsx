@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar'
 import { RecipeProvider } from '../Components/RecipeContext'
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, logout } from "../Components/Auth/firebase";
+import { auth, db, logout } from "../Backend/firebase"
 import { query, collection, getDocs, where } from "firebase/firestore";
 
 function Homepage() {

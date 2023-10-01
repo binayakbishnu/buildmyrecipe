@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { auth, sendPasswordReset } from "../Auth/firebase";
+import { auth, sendPasswordReset } from "../../Backend/firebase";
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 function PwdReset() {

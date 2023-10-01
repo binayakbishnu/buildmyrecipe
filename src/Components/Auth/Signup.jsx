@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword, signInWithGoogle, } from "./firebase";
+import { auth, registerWithEmailAndPassword, signInWithGoogle, } from "../../Backend/firebase";
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
