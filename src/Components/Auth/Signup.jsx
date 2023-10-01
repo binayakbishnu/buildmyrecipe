@@ -10,7 +10,7 @@ function Signup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -40,7 +40,7 @@ function Signup() {
     useEffect(() => {
         if (name !== "" && email !== "" && password !== "") setSignupDisabled(false);
         else setSignupDisabled(true);
-    }, [email, password]);
+    }, [name, email, password]);
 
     useEffect(() => {
         if (loading) return;
