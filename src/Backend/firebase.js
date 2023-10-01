@@ -46,19 +46,28 @@ const signInWithGoogle = async () => {
                 authProvider: "google",
                 email: user.email,
             });
+
+            await addDoc(collection(db, "recipes"), {
+                uid: user.uid,
+                recipes: [],
+            });
         }
+
+        return "no errors";
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        return err;
     }
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
+
+        return "no errors";
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        return err;
     }
 };
 
@@ -72,9 +81,16 @@ const registerWithEmailAndPassword = async (name, email, password) => {
             authProvider: "local",
             email,
         });
+
+        await addDoc(collection(db, "recipes"), {
+            uid: user.id,
+            recipes: [],
+        });
+
+        return "no errors";
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        return err;
     }
 };
 
@@ -82,9 +98,11 @@ const sendPasswordReset = async (email) => {
     try {
         await sendPasswordResetEmail(auth, email);
         alert("Password reset link sent!");
+
+        return "no errors";
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        return err;
     }
 };
 

@@ -37,7 +37,7 @@ function NewRecipe() {
         /* Recipe Title
         Recipe Description */
         <form onSubmit={submitNewRecipe} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] lg:w-[30vw] m-auto'>
-            <h2 className={`${recipeData.name === "" ? "text-[rgba(0,0,0,0)]" : "text-white"} text-2xl`}>{recipeData.name?recipeData.name : "no name"}</h2>
+            <h2 className={`${recipeData.name === "" ? "text-[rgba(0,0,0,0)]" : "text-white"} text-2xl`}>{recipeData.name?recipeData.name : "Recipe name"}</h2>
 
             <input className='bg-[rgba(0,0,0,0)] text-white border rounded p-2' rows="1"
                 onChange={handleRecipeNameChange} value={recipeData.name === "" ? "" : recipeData.name}

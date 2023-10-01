@@ -8,6 +8,10 @@ import { IoWarningOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../RecipeContext';
 
+import { addNewRecipe } from '../../Backend/handleRecipeDB';
+import { auth } from "../../Backend/firebase"
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 function RecipeSummary() {
     const { recipeData, setRecipeData } = useStateContext();
 
@@ -28,10 +32,23 @@ function RecipeSummary() {
         setRecipeData({ ...recipeData, difficultyLevel: difficultyTypes[newIndex] });
     }
 
-    const submitRecipe = () => {
-        alert("cooking steps submit");
-        navigate("/home/newrecipe");
+    const [user] = useAuthState(auth);
+    const updateDB = async () => {
+        return await addNewRecipe(user, recipeData);
     }
+
+    const submitRecipe = () => {
+        updateDB().then((returnValue) => {
+            if (returnValue === "no errors") {
+                setRecipeData({ name: "" });
+                navigate("/home/newrecipe");
+            }
+            else {
+                console.warn(returnValue);
+            }
+        });
+    }
+
     return (
         <div className='text-left bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-2 p-4 rounded w-full sm:w-[50vw] m-auto'>
             <div>
