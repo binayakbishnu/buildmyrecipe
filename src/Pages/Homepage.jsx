@@ -15,9 +15,9 @@ function Homepage() {
         if (!user) return navigate("/");
     }, [user, loading]);
     return (
-        <div className='min-h-screen flex flex-col gap-5'>
+        <div className='min-h-screen flex flex-col gap-0'>
             <Navbar />
-            <div className='flex-1 flex flex-row items-stretch justify-center px-2 pb-4'>
+            <div className='flex-1 flex flex-row items-stretch justify-center px-0 pb-0'>
                 <RecipeProvider>
                     <Outlet />
                 </RecipeProvider>
