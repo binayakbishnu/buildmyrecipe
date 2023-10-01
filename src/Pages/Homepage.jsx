@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar'
 import { RecipeProvider } from '../Components/RecipeContext'
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logout } from "../Backend/firebase"
+import { auth } from "../Backend/firebase"
 
 function Homepage() {
     const [user, loading] = useAuthState(auth);
@@ -22,10 +22,6 @@ function Homepage() {
                     <Outlet />
                 </RecipeProvider>
             </div>
-
-            <button onClick={logout}>
-                Logout
-            </button>
         </div>
     )
 }
