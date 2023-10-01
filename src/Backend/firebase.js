@@ -78,12 +78,12 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         await addDoc(collection(db, "users"), {
             uid: user.uid,
             name,
-            authProvider: "local",
+            authProvider: "manual",
             email,
         });
 
         await addDoc(collection(db, "recipes"), {
-            uid: user.id,
+            uid: user.uid,
             recipes: [],
         });
 
