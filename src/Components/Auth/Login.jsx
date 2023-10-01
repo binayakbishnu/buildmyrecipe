@@ -62,7 +62,7 @@ function Login() {
                         type="password" required placeholder='Password' />
                     <Link to="/forgotPassword" className='underline'>Forgot password?</Link>
                 </div>
-                <button type='submit' className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl'
+                <button type='submit' className={`bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl ${loginDisabled ? 'text-gray-500':'text-white'}`}
                     disabled={loginDisabled}
                     onClick={handleLoginSubmit} >
                     Login

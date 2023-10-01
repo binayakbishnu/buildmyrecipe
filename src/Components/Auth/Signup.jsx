@@ -36,6 +36,12 @@ function Signup() {
         signInWithGoogle();
     }
 
+    const [signupDisabled, setSignupDisabled] = useState(true);
+    useEffect(() => {
+        if (name !== "" && email !== "" && password !== "") setSignupDisabled(false);
+        else setSignupDisabled(true);
+    }, [email, password]);
+
     useEffect(() => {
         if (loading) return;
         if (user) navigate("/home");
@@ -61,7 +67,8 @@ function Signup() {
                     onChange={handlePasswordChange}
                     value={password}
                     type="password" required placeholder='Password' />
-                <button type='submit' className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl'
+                <button type='submit' className={`bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl ${signupDisabled ? 'text-gray-500':'text-white'}`}
+                    disabled={signupDisabled}
                     onClick={handleSignupSubmit} >
                     Signup
                 </button>
