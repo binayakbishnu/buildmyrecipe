@@ -17,6 +17,8 @@ import CookingSteps from './Components/HomePage/CookingSteps';
 import AdditionalInfo from './Components/HomePage/AdditionalInfo';
 import RecipeSummary from './Components/HomePage/RecipeSummary';
 
+import About from './Pages/About';
+
 function App() {
   const homeComponents = [
     {
@@ -70,6 +72,8 @@ function App() {
               ))
             }
           </Route>
+
+          <Route path="/about" element={<About />} />
         </Routes>
       </Router>
     </div>
