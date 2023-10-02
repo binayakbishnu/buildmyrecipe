@@ -10,12 +10,17 @@ function Navbar() {
 
     const [showLogout, setShowLogout] = useState(false);
 
+    const navigate = useNavigate();
+    const logInOut = () => {
+        if (user) logout();
+        else navigate("/");
+    }
+
     useEffect(() => {
         if (user) setShowLogout(true);
         else setShowLogout(false);
     }, [user]);
 
-    const navigate = useNavigate();
     return (
         <div className='relative flex flex-row items-center w-full m-auto p-5 bg-[rgb(39,52,68)] bg-opacity-80'>
             <img src={logo} alt="logo" className='absolute left-4 h-[40px] aspect-auto cursor-pointer' onClick={() => navigate("/")} />
@@ -23,7 +28,7 @@ function Navbar() {
                 <Link to="/" className='hover:underline'>Home</Link>
                 <Link to="/about" className='hover:underline'>About</Link>
             </div>
-            {showLogout && <button className='absolute right-4' onClick={logout}>Logout</button>}
+            <button className='absolute right-4' onClick={logInOut}>{showLogout ? "Logout" : "Login"}</button>
         </div >
     )
 }
