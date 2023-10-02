@@ -1,5 +1,5 @@
 import React from 'react'
-import { BsArrowRightCircle } from 'react-icons/bs';
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
 import { PiBowlFoodLight } from 'react-icons/pi'
 import { LiaCloudscale } from 'react-icons/lia'
 import { AiOutlineClockCircle } from 'react-icons/ai'
@@ -47,6 +47,18 @@ function RecipeSummary() {
                 console.warn(returnValue);
             }
         });
+    }
+
+    const goBack = (e) => {
+        e.preventDefault();
+
+        navigate("/home/additionalinfo");
+    }
+
+    const cancelNewRecipe = (e) => {
+        e.preventDefault();
+
+        navigate("/home");
     }
 
     return (
@@ -179,10 +191,20 @@ function RecipeSummary() {
                 </ol>
             </div>
 
-            <button onClick={submitRecipe}
-                className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl flex gap-2 items-center w-fit m-auto'
-            >Finish <BsArrowRightCircle />
-            </button>
+            <div className='flex justify-center'>
+                <button onClick={goBack}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                ><BsArrowLeftCircle /> Back
+                </button>
+                <button onClick={cancelNewRecipe}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                >Cancel
+                </button>
+                <button onClick={submitRecipe}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                >Finish <BsArrowRightCircle />
+                </button>
+            </div>
         </div>
     )
 }

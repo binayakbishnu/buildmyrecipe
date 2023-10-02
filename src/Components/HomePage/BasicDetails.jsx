@@ -1,5 +1,5 @@
 import React from 'react'
-import { BsArrowRightCircle } from 'react-icons/bs'
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { useStateContext } from '../RecipeContext';
 
@@ -79,73 +79,93 @@ function BasicDetails() {
 
         navigate("/home/ingredients");
     }
+
+    const goBack = (e) => {
+        e.preventDefault();
+
+        navigate("/home/newrecipe");
+    }
+
+    const cancelNewRecipe = (e) => {
+        e.preventDefault();
+
+        navigate("/home");
+    }
+
     return (
         /* Dietary Information
         Servings
         Meal Type
         Privacy Settings */
-        <div>
-            <form onSubmit={submitBasicDetails} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[70vw] md:w-[50vw] m-auto'>
-                <h2 className='text-2xl'>{recipeData?.name}</h2>
+        <form onSubmit={submitBasicDetails} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[70vw] md:w-[50vw] m-auto'>
+            <h2 className='text-2xl'>{recipeData?.name}</h2>
 
-                <div>
-                    <p className='text-left p-0 m-0'>Dietary information</p>
-                    <hr />
-                    <div className='text-left flex flex-row flex-wrap gap-2'>
-                        {
-                            dietaryInfoList.map((data, index) => (
-                                <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input id={`${data}`} type="checkbox" value={data} name={data}
+            <div>
+                <p className='text-left p-0 m-0'>Dietary information</p>
+                <hr />
+                <div className='text-left flex flex-row flex-wrap gap-2'>
+                    {
+                        dietaryInfoList.map((data, index) => (
+                            <div key={index} className='flex flex-row items-center gap-1'>
+                                <input id={`${data}`} type="checkbox" value={data} name={data}
                                     checked={recipeData.dietaryInfo.includes(data)}
                                     onChange={handleRecipeDietaryInfoChange} />
-                                    <label htmlFor={data}>{data}</label>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                <label htmlFor={data}>{data}</label>
+                            </div>
+                        ))
+                    }
                 </div>
+            </div>
 
-                <div>
-                    <p className='text-left p-0 m-0'>Servings</p>
-                    <hr />
-                    <div className='text-left flex flex-row flex-wrap gap-2'>
-                        {
-                            servingsList.map((data, index) => (
-                                <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input id={data} type="radio" value={data} name={data}
-                                        checked={recipeData.servings === data}
-                                        onChange={handleRecipeServingsChange} />
-                                    <label htmlFor={data}>{data}</label>
-                                </div>
-                            ))
-                        }
-                    </div>
+            <div>
+                <p className='text-left p-0 m-0'>Servings</p>
+                <hr />
+                <div className='text-left flex flex-row flex-wrap gap-2'>
+                    {
+                        servingsList.map((data, index) => (
+                            <div key={index} className='flex flex-row items-center gap-1'>
+                                <input id={data} type="radio" value={data} name={data}
+                                    checked={recipeData.servings === data}
+                                    onChange={handleRecipeServingsChange} />
+                                <label htmlFor={data}>{data}</label>
+                            </div>
+                        ))
+                    }
                 </div>
+            </div>
 
-                <div>
-                    <p className='text-left p-0 m-0'>Meal type</p>
-                    <hr />
-                    <div className='text-left flex flex-row flex-wrap gap-x-2'>
-                        {
-                            mealTypes.map((data, index) => (
-                                <div key={index} className='flex flex-row items-center gap-1'>
-                                    <input id={data} type="checkbox" value={data} name={data}
-                                        checked={recipeData.mealTypes.includes(data)}
-                                        onChange={handleMealTypeChange} />
-                                    <label htmlFor={data}>{data}</label>
-                                </div>
-                            ))
-                        }
-                    </div>
+            <div>
+                <p className='text-left p-0 m-0'>Meal type</p>
+                <hr />
+                <div className='text-left flex flex-row flex-wrap gap-x-2'>
+                    {
+                        mealTypes.map((data, index) => (
+                            <div key={index} className='flex flex-row items-center gap-1'>
+                                <input id={data} type="checkbox" value={data} name={data}
+                                    checked={recipeData.mealTypes.includes(data)}
+                                    onChange={handleMealTypeChange} />
+                                <label htmlFor={data}>{data}</label>
+                            </div>
+                        ))
+                    }
                 </div>
+            </div>
 
+            <div className='flex justify-center'>
+                <button onClick={goBack}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                ><BsArrowLeftCircle /> Back
+                </button>
+                <button onClick={cancelNewRecipe}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                >Cancel
+                </button>
                 <button
-                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl flex gap-2 items-center w-fit m-auto'
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
                 >Next <BsArrowRightCircle />
                 </button>
-
-            </form>
-        </div>
+            </div>
+        </form>
     )
 }
 

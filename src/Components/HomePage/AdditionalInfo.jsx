@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BsArrowRightCircle } from 'react-icons/bs'
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../RecipeContext';
 
@@ -55,15 +55,28 @@ function AdditionalInfo() {
     }
 
     const navigate = useNavigate();
-    const submitCookingSteps = () => {
+    const submitAdditionalInfo = () => {
         // alert("cooking steps submit");
         navigate("/home/recipesummary")
     }
+
+    const goBack = (e) => {
+        e.preventDefault();
+
+        navigate("/home/cookingsteps");
+    }
+
+    const cancelNewRecipe = (e) => {
+        e.preventDefault();
+
+        navigate("/home");
+    }
+
     return (
         /* Tags or Categories
         Nutritional Information (optional)
         Comments and Ratings */
-        <div className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] lg:w-[30vw] m-auto'>
+        <form onSubmit={submitAdditionalInfo} className='bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-5 p-4 rounded w-full sm:w-[50vw] lg:w-[30vw] m-auto'>
             <h2 className='text-2xl'>{recipeData?.name}</h2>
 
             <div>
@@ -110,11 +123,21 @@ function AdditionalInfo() {
                 value={recipeData.demoLink}
                 type="text" name="demoLink" id="demoLink" placeholder='paste demo link' />
 
-            <button onClick={submitCookingSteps}
-                className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded-xl flex gap-2 items-center w-fit m-auto'
-            >Next <BsArrowRightCircle />
-            </button>
-        </div>
+            <div className='flex justify-center'>
+                <button onClick={goBack}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                ><BsArrowLeftCircle /> Back
+                </button>
+                <button onClick={cancelNewRecipe}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                >Cancel
+                </button>
+                <button
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
+                >Next <BsArrowRightCircle />
+                </button>
+            </div>
+        </form>
     )
 }
 
