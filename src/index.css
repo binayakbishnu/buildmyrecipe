@@ -11,6 +11,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   overflow-y: scroll;
+
+  text-align: center;
+  color: white;
+  background-color: rgb(24, 24, 24);
+  background-image: url("../src/assets/bg1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 h2{

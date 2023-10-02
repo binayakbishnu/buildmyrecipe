@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../Backend/firebase"
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { PiBowlFoodLight } from 'react-icons/pi';
+import { IoArrowUpCircleOutline } from 'react-icons/io5';
 import RecipePage from './RecipePage';
 
 function Dashboard() {
@@ -37,25 +38,20 @@ function Dashboard() {
         return dietaryInfo.join(", ");
     }
 
-    const [showRecipePage, setShowRecipePage] = useState(false);
+    const [showRecipePage, setShowRecipePage] = useState(true);
     const toggleShowRecipePage = () => {
-        setShowRecipePage(!showRecipePage);
+        if (!showRecipePage) setShowRecipePage(!showRecipePage);
     }
 
     const [recipeIndexToShow, setRecipeIndexToShow] = useState(0);
+    const resultRef = useRef(null);
     const selectRecipe = (index) => {
         setRecipeIndexToShow(index);
         toggleShowRecipePage();
+        resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    const [showExit, setShowExit] = useState(false);
-    const showExitHover = () => {
-        setShowExit(true);
-    }
-    const hideExitHover = () => {
-        setShowExit(false);
-    }
-
+    const topRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,9 +60,13 @@ function Dashboard() {
         fetchRecipes();
     });
     return (
-        <div className='flex-1 flex flex-col gap-5 relative'>
-            <div className='welcomeMsg'>
+        <div id="top" ref={topRef} className='flex-1 flex flex-col gap-5 relative'>
+            <div className='welcomeMsg mx-5'>
                 <h2 className={`text-4xl`}>My recipes</h2>
+            </div>
+            <div className='mx-5'>
+                <button className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded w-fit m-auto mb-4'
+                    onClick={() => navigate("/home/newrecipe")}>New recipe</button>
             </div>
 
             <div className='mx-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
@@ -123,38 +123,14 @@ function Dashboard() {
                 }
             </div>
 
-            <div>
-                <button className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded w-fit m-auto mb-4'
-                    onClick={() => navigate("/home/newrecipe")}>New recipe</button>
+            <div className={`mx-5 pt-4 pb-10 sm:pb-4 ${recipes.length === 0 ? "hidden" : "block"}`} ref={resultRef} >
+                <RecipePage selectedRecipe={recipes[recipeIndexToShow]} />
             </div>
 
-            <div className={`h-full absolute m-auto w-full bg-[rgba(255,255,255,0)] backdrop-blur-lg bg-opacity-80 p-0 ${showRecipePage ? "flex" : "hidden"} flex-col`}>
-                <div className={`hidden sm:block max-h-4 flex-1 cursor-pointer ${showExit ? 'sm:bg-[rgba(255,255,255,0.1)] sm:backdrop-blur-xl sm:text-white' : ''} text-[rgba(0,0,0,0)]`}
-                    onClick={toggleShowRecipePage}
-                    onMouseEnter={showExitHover}
-                    onMouseLeave={hideExitHover}></div>
-                <div className={`h-fit bg-[rgba(255,255,255,0)] p-0 flex items-stretch px-2 sm:px-0 pt-2 sm:pt-0`}>
-                    <div
-                        className={`hidden flex-1 cursor-pointer ${showExit ? 'sm:bg-[rgba(255,255,255,0.1)] sm:backdrop-blur-xl sm:text-white' : ''} text-[rgba(0,0,0,0)] sm:flex items-center justify-center`}
-                        onClick={toggleShowRecipePage}
-                        onMouseEnter={showExitHover}
-                        onMouseLeave={hideExitHover}>
-                        Exit
-                    </div>
-                    <RecipePage selectedRecipe={recipes[recipeIndexToShow]} />
-                    <div
-                        className={`hidden flex-1 cursor-pointer ${showExit ? 'sm:bg-[rgba(255,255,255,0.1)] sm:backdrop-blur-xl sm:text-white' : ''} text-[rgba(0,0,0,0)] sm:flex items-center justify-center`}
-                        onClick={toggleShowRecipePage}
-                        onMouseEnter={showExitHover}
-                        onMouseLeave={hideExitHover}>
-                        Exit
-                    </div>
-                </div>
-                <div className={`flex-1 cursor-pointer ${showExit ? 'sm:bg-[rgba(255,255,255,0.1)] sm:backdrop-blur-xl sm:text-white' : ''} sm:text-[rgba(0,0,0,0)] pt-10 sm:pt-0`}
-                    onClick={toggleShowRecipePage}
-                    onMouseEnter={showExitHover}
-                    onMouseLeave={hideExitHover}>Exit</div>
-            </div>
+            <button onClick={() => topRef.current.scrollIntoView({ behavior: "smooth" })}
+                className='fixed right-5 bottom-5 rounded-full bg-[rgb(39,52,68)] bg-opacity-80'>
+                <IoArrowUpCircleOutline className='text-4xl' />
+            </button>
         </div >
     )
 }

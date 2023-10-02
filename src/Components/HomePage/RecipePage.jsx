@@ -6,11 +6,11 @@ import { AiOutlineClockCircle } from 'react-icons/ai'
 import { MdPeopleOutline } from 'react-icons/md'
 import { IoWarningOutline } from 'react-icons/io5'
 
-function RecipePage({ selectedRecipe }) {
+function RecipePage({ selectedRecipe, }) {
     const allergensString = selectedRecipe?.allergenList.join(", ");
 
     return (
-        <div className='text-left bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-2 p-4 w-full sm:w-[50vw] m-auto'>
+        <div className='text-left bg-[rgb(39,52,68)] bg-opacity-60 flex flex-col gap-2 p-4 w-full sm:w-[50vw] m-auto rounded'>
             <div>
                 <div className='flex gap-x-5 items-center'>
                     <h2 className='text-2xl whitespace-nowrap'>
