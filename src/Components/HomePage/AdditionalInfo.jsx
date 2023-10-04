@@ -55,7 +55,8 @@ function AdditionalInfo() {
     }
 
     const navigate = useNavigate();
-    const submitAdditionalInfo = () => {
+    const submitAdditionalInfo = (e) => {
+        e.preventDefault();
         // alert("cooking steps submit");
         navigate("/home/recipesummary")
     }

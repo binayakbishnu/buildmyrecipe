@@ -38,7 +38,8 @@ function CookingSteps() {
     }
 
     const navigate = useNavigate();
-    const submitCookingSteps = () => {
+    const submitCookingSteps = (e) => {
+        e.preventDefault();
         // alert("cooking steps submit");
         navigate("/home/additionalinfo")
     }
