@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
 import { PiBowlFoodLight } from 'react-icons/pi'
 import { LiaCloudscale } from 'react-icons/lia'
@@ -6,6 +6,8 @@ import { AiOutlineClockCircle } from 'react-icons/ai'
 import { MdPeopleOutline } from 'react-icons/md'
 import { IoWarningOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as Loader } from '../../assets/spinner.svg'
+
 import { useStateContext } from '../RecipeContext';
 
 import { addNewRecipe } from '../../Backend/handleRecipeDB';
@@ -15,9 +17,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 function RecipeSummary() {
     const { recipeData, setRecipeData } = useStateContext();
 
-    // const primaryIngredientsString = recipeData.primaryIngredients.join(", ");
-    // const secondaryIngredientsString = recipeData.secondaryIngredients.join(", ");
-    const allergensString = recipeData.allergenList.join(", ");
+    // const primaryIngredientsString = recipeData?.primaryIngredients.join(", ");
+    // const secondaryIngredientsString = recipeData?.secondaryIngredients.join(", ");
+    const allergensString = recipeData?.allergenList?.join(", ");
 
     const navigate = useNavigate();
 
@@ -27,24 +29,49 @@ function RecipeSummary() {
 
     const difficultyTypes = ["easy", "moderate", "hard"];
     const changeDifficulty = () => {
-        let currIndex = difficultyTypes.indexOf(recipeData.difficultyLevel);
+        let currIndex = difficultyTypes.indexOf(recipeData?.difficultyLevel);
         let newIndex = (currIndex + 1) % difficultyTypes.length;
         setRecipeData({ ...recipeData, difficultyLevel: difficultyTypes[newIndex] });
     }
 
+    const [finishBtnLoading, setFinishBtnLoading] = useState(false);
+    const finishLoading = async (state) => {
+        setFinishBtnLoading(state);
+    }
+
     const [user] = useAuthState(auth);
     const updateDB = async () => {
-        return await addNewRecipe(user, recipeData);
+        let returnVal = await addNewRecipe(user, recipeData);
+        finishLoading(false);
+        return returnVal;
     }
 
     const submitRecipe = () => {
-        updateDB().then((returnValue) => {
+        finishLoading(true).then(() => updateDB()).then((returnValue) => {
             if (returnValue === "no errors") {
-                setRecipeData({ name: "" });
+                setRecipeData({
+                    name: "",
+                    description: "",
+                    dietaryInfo: [],
+                    nutrientList: [],
+                    mealTypes: [],
+                    servings: "",
+                    primaryIngredients: [],
+                    secondaryIngredients: [],
+                    allergenList: [],
+                    prepTime: { hours: 0, minutes: 0 },
+                    cookingTime: { hours: 0, minutes: 0 },
+                    difficultyLevel: "",
+                    cookingSteps: [''],
+                    demoLink: "",
+                    tagList: [],
+                });
                 navigate("/home");
+                return true;
             }
             else {
                 console.warn(returnValue);
+                return false;
             }
         });
     }
@@ -66,11 +93,11 @@ function RecipeSummary() {
             <div>
                 <div className='flex gap-x-5 items-center'>
                     <h2 className='text-2xl whitespace-nowrap'>
-                        {recipeData.name}
+                        {recipeData?.name}
                     </h2>
                     <div className='flex gap-x-2 gap-y-1 flex-wrap p-0 m-0'>
                         {
-                            recipeData.tagList.map((data, index) => (
+                            recipeData?.tagList?.map((data, index) => (
                                 <div key={index} className='text-[0.8rem] flex gap-x-1 items-center bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2'>
                                     #{data}
                                 </div>
@@ -80,18 +107,18 @@ function RecipeSummary() {
                     </div>
                 </div>
                 <p>Difficulty: <i onClick={changeDifficulty}
-                    className={`cursor-pointer ${recipeData.difficultyLevel === "easy" ? 'text-green-500' : recipeData.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
-                >{recipeData.difficultyLevel}
+                    className={`cursor-pointer ${recipeData?.difficultyLevel === "easy" ? 'text-green-500' : recipeData?.difficultyLevel === "hard" ? 'text-red-500' : 'text-orange-500'}`}
+                >{recipeData?.difficultyLevel}
                 </i></p>
                 <hr />
-                <p>{recipeData.description}</p>
+                <p>{recipeData?.description}</p>
             </div>
 
             <div className='flex gap-2 items-baseline'>
                 <PiBowlFoodLight /* className='text-[1.4rem]' */ />
                 <div className='flex gap-2 flex-wrap items-center'>
                     {
-                        recipeData.dietaryInfo.map((data, index) => (
+                        recipeData?.dietaryInfo?.map((data, index) => (
                             <div key={index}
                                 className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit flex gap-x-1 items-center'>
                                 {data}
@@ -105,7 +132,7 @@ function RecipeSummary() {
                 <LiaCloudscale /* className='text-[1.4rem]' */ />
                 <div className='flex gap-2 flex-wrap items-center'>
                     {
-                        recipeData.nutrientList.map((data, index) => (
+                        recipeData?.nutrientList?.map((data, index) => (
                             <div key={index} className='bg-[rgb(39,52,68)] bg-opacity-80 rounded px-2 py-1 w-fit flex gap-x-1 items-center'>
                                 {data}
                             </div>
@@ -118,14 +145,14 @@ function RecipeSummary() {
                 <AiOutlineClockCircle />
                 <div className='flex gap-2 flex-wrap items-center'>
                     {
-                        recipeData.mealTypes.map((data, index) => (
+                        recipeData?.mealTypes?.map((data, index) => (
                             <p key={index}>{data}</p>
                         ))
                     }
                     <p onClick={() => goToPage("/home/basicdetails")} className='underline cursor-pointer'>edit</p>
                 </div>
             </div>
-            <p className='flex gap-2 items-center'><MdPeopleOutline />Serves: {recipeData.servings}
+            <p className='flex gap-2 items-center'><MdPeopleOutline />Serves: {recipeData?.servings}
                 <span onClick={() => goToPage("/home/basicdetails")} className='underline cursor-pointer'>edit</span>
             </p>
 
@@ -137,7 +164,7 @@ function RecipeSummary() {
                 {/* {primaryIngredientsString} */}
                 <div className={`grid grid-cols-2 items-center border rounded p-2`}>
                     {
-                        recipeData.primaryIngredients.map((data, index) => (
+                        recipeData?.primaryIngredients?.map((data, index) => (
                             <div key={index}>{data}</div>
                         ))
                     }
@@ -147,7 +174,7 @@ function RecipeSummary() {
                     {/* {secondaryIngredientsString} */}
                     <div className={`grid grid-cols-2 items-center border rounded p-2`}>
                         {
-                            recipeData.secondaryIngredients.map((data, index) => (
+                            recipeData?.secondaryIngredients?.map((data, index) => (
                                 <div key={index}>{data}</div>
                             ))
                         }
@@ -164,12 +191,12 @@ function RecipeSummary() {
                 <hr />
                 <div>
                     <p>
-                        Preparation time: {recipeData.prepTime.hours !== 0 ? recipeData.prepTime.hours + (recipeData.prepTime.hours === 1 ? " hour " : " hours ") : ""}
-                        {recipeData.prepTime.minutes !== 0 ? recipeData.prepTime.minutes + " minutes" : ""}
+                        Preparation time: {recipeData?.prepTime?.hours !== 0 ? recipeData?.prepTime?.hours + (recipeData?.prepTime?.hours === 1 ? " hour " : " hours ") : ""}
+                        {recipeData?.prepTime?.minutes !== 0 ? recipeData?.prepTime?.minutes + " minutes" : ""}
                     </p>
                     <p>
-                        Cooking time: {recipeData.cookingTime.hours !== 0 ? recipeData.cookingTime.hours + (recipeData.cookingTime.hours === 1 ? " hour " : " hours ") : ""}
-                        {recipeData.cookingTime.minutes !== 0 ? recipeData.cookingTime.minutes + " minutes" : ""}
+                        Cooking time: {recipeData?.cookingTime?.hours !== 0 ? recipeData?.cookingTime?.hours + (recipeData?.cookingTime?.hours === 1 ? " hour " : " hours ") : ""}
+                        {recipeData?.cookingTime?.minutes !== 0 ? recipeData?.cookingTime?.minutes + " minutes" : ""}
                     </p>
                 </div>
             </div>
@@ -177,14 +204,14 @@ function RecipeSummary() {
             <div className='w-full'>
                 <div className='flex justify-between'>
                     <p className='flex gap-2'>Cooking Steps<span onClick={() => goToPage("/home/cookingsteps")} className='underline cursor-pointer'>edit</span></p>
-                    {recipeData.demoLink !== "" &&
-                        <a href={recipeData.demoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
+                    {recipeData?.demoLink !== "" &&
+                        <a href={recipeData?.demoLink} className='underline' target='_blank' rel="noreferrer">Demo link</a>
                     }
                 </div>
                 <hr />
                 <ol className='list-decimal ms-5'>
                     {
-                        recipeData.cookingSteps.map((data, index) => (
+                        recipeData?.cookingSteps?.map((data, index) => (
                             data && <li key={index}>{data}</li>
                         ))
                     }
@@ -200,9 +227,14 @@ function RecipeSummary() {
                     className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
                 >Cancel
                 </button>
-                <button onClick={submitRecipe}
-                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded flex gap-2 items-center w-fit m-auto'
-                >Finish <BsArrowRightCircle />
+                <button onClick={submitRecipe} disabled={finishBtnLoading}
+                    className='bg-[rgb(39,52,68)] bg-opacity-80 px-4 py-2 rounded w-fit m-auto flex gap-2 items-center'
+                > Finish
+                    {finishBtnLoading === true ?
+                        <Loader className="animate-spin duration-500 infinite linear" /> :
+                        <BsArrowRightCircle />
+                    }
+                    {/* Finish <BsArrowRightCircle /> */}
                 </button>
             </div>
         </div>
